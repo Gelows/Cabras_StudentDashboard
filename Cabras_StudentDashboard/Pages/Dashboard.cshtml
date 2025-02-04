@@ -1,0 +1,57 @@
+﻿@page
+@model Cabras_StudentDashboard.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Student Dashboard";
+    // Lista sa mga estudyante ug ilang mga score
+    var students = new List<Student>
+    {
+        new Student { Name = "Alice", Score = 85 },
+        new Student { Name = "Bob", Score = 92 },
+        new Student { Name = "Charlie", Score = 78 },
+        new Student { Name = "Diana", Score = 88 }
+    };
+    // Kuhaa ang average score sa mga estudyante
+    var averageScore = students.Average(s => s.Score);
+}
+<h1>@ViewData["Title"]</h1>
+
+<!-- I display ang welcome message sa user -->
+<p>Welcome to the student dashboard. Below is the performance summary:</p>
+
+<!-- Susihon kung walay mga estudyante sa listahan -->
+@if (students.Count == 0)
+{
+    <!-- I-display ang mensahe kung walay mga estudyante -->
+    <p>No students found.</p>
+}
+else
+{
+    <!-- I-display ang total nga gidaghanon sa mga estudyante sa listahan -->
+    <p>Total Students: @students.Count</p>
+
+    <!-- I-display ang lista sa matag estudyante uban sa ilang score ug performance -->
+    <ul>
+        <!-- Mag-loop pinaagi sa matag estudyante sa listahan -->
+        @foreach (var student in students)
+        {
+            <!-- I-apply ang background color sa list item kung ang score sa estudyante labaw sa 90 -->
+            <li style="@(student.Score > 90 ? "background-color: lightgreen;" :"")">
+                <!-- I-display ang pangalan sa estudyante, score, ug performance -->
+                @student.Name - Score: @student.Score
+                <!-- Idugang ang performance label base sa score sa estudyante -->
+                @if (student.Score >= 90)
+                {
+                    <strong>(Excellent)</strong>
+                }
+                else if (student.Score >= 80) 
+                {
+                    <em>(Good)</em>
+                }
+                else
+                {
+                    <span>(Needs Improvement)</span>
+                }
+            </li>
+        }
+    </ul>
+}
